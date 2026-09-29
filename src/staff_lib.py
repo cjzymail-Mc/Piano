@@ -54,13 +54,15 @@ def draw_staff(ax, bottom_y, x0=3.2, x1=92.6):
         ax.hlines(bottom_y + i, x0, x1, color=INK, lw=LINE_LW, zorder=2)
 
 def draw_ledgers(ax, x, y, bottom_y):
-    """谱表外加线。上方：整线画到音符所在线；下方：只画到音符上方那条线为止。"""
+    """谱表外加线。上方：整线画到音符所在线；下方：只画到音符上方那条线为止。
+    线网格 = bottom_y + 整数（谱底线可为任意实数），加线间距恒为 1 个谱线距。"""
     top_y = bottom_y + 4
     if y > top_y:
-        ys = range(int(top_y) + 1, int(y) + 1)
+        n = int(y - top_y)
+        ys = [top_y + i for i in range(1, n + 1)]
     elif y < bottom_y:
-        start = int(y) if float(y).is_integer() else int(y) + 1
-        ys = range(start, int(bottom_y))
+        n = int(bottom_y - y)
+        ys = [bottom_y - i for i in range(1, n + 1)]
     else:
         ys = []
     for yy in ys:
